@@ -12,10 +12,7 @@ Theta = reshape(params(num_movies*num_features+1:end), ...
                 num_users, num_features);
 
             
-% You need to return the following values correctly
-J = 0;
-X_grad = zeros(size(X));
-Theta_grad = zeros(size(Theta));
+
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost function and gradient for collaborative
@@ -40,7 +37,15 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+% You need to return the following values correctly
+XT = (X*Theta').*R - Y;
+errors = (XT).^2; % This works because Y has 0 for R entries =0
 
+X2 = X.^2;
+Theta2 = Theta.^2;
+J = 0.5*sum(errors(:)) + (lambda/2)*( sum(Theta2(:)) + sum(X2(:)) );
+X_grad = XT*Theta + lambda*X;
+Theta_grad = (XT')*X + lambda*Theta;
 
 
 
